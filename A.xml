@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <products>
-    <String image="https://img.youtube.com/vi/ebUprae0ZMw/maxresdefault.jpg" name="Allain ThiÃªn TÆ°á»ng" url="https://m.youtube.com/watch?v=ebUprae0ZMw" />
-  <String image="https://img.youtube.com/vi/O4Z7sY8vtzU/maxresdefault.jpg" name="Violet Thứ Nguyên Vệ Thần Có Nút" url="https://youtu.be/O4Z7sY8vtzU?si=5A7y9VTr_E9IBgIr" />
+    <String image="https://img.youtube.com/vi/O4Z7sY8vtzU/maxresdefault.jpg" name="Violet Thứ Nguyên Vệ Thần Có Nút" url="https://youtu.be/O4Z7sY8vtzU?si=5A7y9VTr_E9IBgIr" />
 </products>
