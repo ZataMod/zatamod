@@ -5,4 +5,10 @@
       </images>
     <text>Fake News mà xem làm gì </text>
   </new>
+  <new name="Fake">
+      <images>
+        <image></image>
+      </images>
+    <text>Hehe</text>
+  </new>
 </news>
