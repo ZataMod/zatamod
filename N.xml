@@ -14,4 +14,10 @@
       </images>
     <text>Test</text>
   </new>
+  <new name="Vinh">
+      <images>
+        <image></image>
+      </images>
+    <text>Test a</text>
+  </new>
 </news>
