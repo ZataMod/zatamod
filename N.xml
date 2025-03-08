@@ -33,4 +33,10 @@
     <image>https://i.ibb.co/Xk4j2tB6/D-n-m-i-6-2-BEAFB9.png</image>
     <text>Mod</text>
   </new>
+  <new name="Vinh">
+    <images>
+        <image>https://i.ibb.co/Xk4j2tB6/D-n-m-i-6-2-BEAFB9.png</image>
+      </images>
+    <text>Mod</text>
+  </new>
 </news>
