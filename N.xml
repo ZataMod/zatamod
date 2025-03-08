@@ -23,4 +23,10 @@
       </images>
     <text>Mod</text>
   </new>
+  <new name="Mod">
+      <images>
+        <image></image>
+      </images>
+    <text>Mod</text>
+  </new>
 </news>
