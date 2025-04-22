@@ -1,0 +1,10 @@
+{
+  "Skin1" : {"Name" : "Tên Skin",
+  "img" : "https://....",
+  "url" : "https://...."
+  },
+  "Skin2" : {"Name" : "Tên Skin",
+  "img" : "https://....",
+  "url" : "https://...."
+  }
+}
