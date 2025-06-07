@@ -4,25 +4,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Zata Mod</title>
   <style>
-    .hidden {
-      display: none;
+    .hidden { display: none; }
+    .bg {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://datallain07.github.io/datallain/aov/img/ichigo.png');
+      background-size: cover;
+      background-position: center;
+      filter: blur(10px);
+      transform: scale(1.05);
+      z-index: -1;
+      border-radius: inherit;
     }
-  .bg {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('https://datallain07.github.io/datallain/aov/img/ichigo.png');
-  background-size: cover;
-  background-position: center;
-  filter: blur(10px);
-  transform: scale(1.05);
-  z-index: -1;
-  border-radius: inherit;
-}
-
     @font-face {
       font-family: 'Brown Pro';
       src: url('./font.otf') format('opentype');
@@ -30,7 +27,6 @@
       font-style: normal;
       font-display: swap;
     }
-
     .list-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -38,7 +34,6 @@
       padding: 20px;
       justify-items: center;
     }
-
     .image-wrapper {
       position: relative;
       width: 100%;
@@ -48,7 +43,6 @@
       border: 1.5px solid #ccc;
       box-sizing: border-box;
     }
-
     .large-image {
       position: absolute;
       top: 0;
@@ -58,7 +52,6 @@
       object-fit: cover;
       border-radius: 10px;
     }
-
     .overlay {
       position: absolute;
       bottom: 0;
@@ -70,7 +63,6 @@
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
     }
-
     .bottom-info {
       position: absolute;
       bottom: 10px;
@@ -81,7 +73,6 @@
       gap: 10px;
       z-index: 1;
     }
-
     .small-image {
       width: 50px;
       height: 50px;
@@ -90,7 +81,6 @@
       object-fit: cover;
       flex-shrink: 0;
     }
-
     .text-info {
       display: flex;
       flex-direction: column;
@@ -98,7 +88,6 @@
       flex-grow: 1;
       min-width: 0;
     }
-
     .label {
       position: absolute;
       bottom: 0px;
@@ -113,7 +102,6 @@
       font-weight: 900;
       text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
     }
-
     .title {
       position: absolute;
       bottom: 0px;
@@ -128,7 +116,6 @@
       font-weight: 900;
       text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
     }
-
     .button-link {
       display: flex;
       align-items: center;
@@ -137,7 +124,6 @@
       cursor: pointer;
       flex-shrink: 0;
     }
-
     .button-svg {
       width: 28px;
       height: 28px;
@@ -149,11 +135,25 @@
   <div class="bg"></div>
   <div class="list-container"></div>
 
+  <script type="application/json" id="skin-json">
+    [
+      {
+        "id": "163",
+        "isActive": true,
+        "largeImageSrc": "https://lh3.googleusercontent.com/d/1XwdLACUR1PBWIRmDc4FLXovHMr4k08h-",
+        "smallImageSrc": "https://lh3.googleusercontent.com/d/1XwdLACUR1PBWIRmDc4FLXovHMr4k08h-",
+        "label": "RYOMA",
+        "title": "TTTB X TNVT",
+        "downloadLink": "#"
+      }
+    ]
+  </script>
+
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const dataUrl = 'https://github.com/ZataMod/Skin/raw/refs/heads/main/skin.json';
-
       const listContainer = document.querySelector('.list-container');
+      const jsonData = document.getElementById('skin-json').textContent;
+      const listData = JSON.parse(jsonData);
 
       const createListItem = (itemData) => {
         const imageWrapper = document.createElement('div');
@@ -162,7 +162,6 @@
         const largeImage = document.createElement('img');
         largeImage.classList.add('large-image');
         largeImage.src = itemData.largeImageSrc;
-        largeImage.alt = itemData.label + ' Large Image';
         imageWrapper.appendChild(largeImage);
 
         const overlay = document.createElement('div');
@@ -175,7 +174,6 @@
         const smallImage = document.createElement('img');
         smallImage.classList.add('small-image');
         smallImage.src = itemData.smallImageSrc;
-        smallImage.alt = itemData.label + ' Small Image';
         bottomInfo.appendChild(smallImage);
 
         const textInfo = document.createElement('div');
@@ -208,32 +206,17 @@
         bottomInfo.appendChild(buttonLink);
 
         imageWrapper.appendChild(bottomInfo);
-
         return imageWrapper;
       };
 
-      const fetchDataAndDisplay = async () => {
-        try {
-          const response = await fetch(dataUrl);
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+      listData.forEach(item => {
+        if (item.isActive === true) {
+          const listItemElement = createListItem(item);
+          if (listContainer) {
+            listContainer.appendChild(listItemElement);
           }
-          const listData = await response.json();
-
-          listData.forEach(item => {
-            if (item.isActive === true) {
-              const listItemElement = createListItem(item);
-              if (listContainer) {
-                listContainer.appendChild(listItemElement);
-              }
-            }
-          });
-        } catch (error) {
-          console.error("Error fetching or processing data:", error);
         }
-      };
-
-      fetchDataAndDisplay();
+      });
     });
   </script>
 </body>
