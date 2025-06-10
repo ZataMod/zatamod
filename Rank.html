@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Rank Extractor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      background: #111;
+      color: white;
+      font-family: sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    select, button {
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      margin: 10px;
+      width: 90%;
+      max-width: 400px;
+    }
+    button {
+      background: #28a745;
+      color: white;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>Chọn Rank</h2>
+  <select id="rankSelect"></select><br>
+  <button onclick="downloadZip()">Bắt đầu Mod</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script>
+    const bytesUrl = "https://raw.githubusercontent.com/ZataMod/Skin/refs/heads/main/RankGrade.bytes";
+    const idMap = {
+      257:"Đồng III",514:"Đồng II",771:"Đồng I",1028:"Bạc III",1285:"Bạc II",1542:"Bạc I",
+      1809:"Vàng IV",2055:"Vàng III",2312:"Vàng II",2569:"Vàng I",2834:"B.Kim V",3091:"B.Kim IV",
+      3338:"B.Kim III",3595:"B.Kim II",3852:"B.Kim I",4116:"K.Cương V",4373:"K.Cương IV",4621:"K.Cương III",
+      4878:"K.Cương II",5135:"K.Cương I",5398:"T.Anh V",5655:"T.Anh IV",5912:"T.Anh III",6169:"T.Anh II",
+      6426:"T.Anh I",6672:"Cao Thủ",6940:"Đại cao thủ IV",7197:"Đại cao thủ III",7454:"Đại cao thủ II",
+      7711:"Đại cao thủ I",7963:"Chiến tướng",8224:"Chiến thần"
+    };
+
+    const select = document.getElementById("rankSelect");
+    for (const [id, name] of Object.entries(idMap)) {
+      const option = document.createElement("option");
+      option.value = id;
+      option.textContent = `${id} - ${name}`;
+      select.appendChild(option);
+    }
+
+    function hexToBytes(hex) {
+      const bytes = [];
+      for (let c = 0; c < hex.length; c += 2)
+        bytes.push(parseInt(hex.substr(c, 2), 16));
+      return new Uint8Array(bytes);
+    }
+
+    function bytesToHex(buffer) {
+      return [...new Uint8Array(buffer)]
+        .map(b => b.toString(16).padStart(2, "0"))
+        .join("");
+    }
+
+    function readChunks(hex) {
+      const chunks = [];
+      hex = hex.slice(280); // Skip 140 bytes header
+      while (hex.length >= 12) {
+        const len = parseInt(hex.slice(2, 4) + hex.slice(0, 2), 16) * 2 + 8;
+        const chunk = hex.slice(0, len);
+        chunks.push(chunk);
+        hex = hex.slice(len);
+      }
+      return chunks;
+    }
+
+    async function downloadZip() {
+      const selectedId = parseInt(select.value);
+      const response = await fetch(bytesUrl);
+      const arrayBuffer = await response.arrayBuffer();
+      const fullHex = bytesToHex(arrayBuffer);
+      const chunks = readChunks(fullHex);
+
+      let targetChunk = "";
+      let idh = "";
+      for (const chunk of chunks) {
+        const curIdh = chunk.slice(8, 12);
+        const id = parseInt(curIdh.slice(2, 4) + curIdh.slice(0, 2), 16);
+        if (id === selectedId) {
+          idh = curIdh;
+          targetChunk = chunk;
+          break;
+        }
+      }
+
+      if (!targetChunk) return alert("Không tìm thấy ID!");
+
+      const baseCode = "4D534553070000001B030000200000006161616161616161616161616161616161616161616161616161616161616161000000000000000000000000000000005554462D380000000000000000000000000000000000000000000000000000006333353035343135653732656238316334376263356361646539366535333665000000008C00000000000000";
+      const allMods = chunks.map(i => i.slice(8, 12));
+      let finalHex = baseCode;
+      for (const modIdh of allMods) {
+        finalHex += targetChunk.replace(idh, modIdh);
+      }
+
+      const zip = new JSZip();
+      const folderName = idMap[selectedId].replace(/\s+/g, "_");
+      zip.folder(`${folderName}/files/Resources/1.58.1/Databin/Client/Rank`)
+        .file("RankGrade.bytes", hexToBytes(finalHex));
+
+      const blob = await zip.generateAsync({ type: "blob" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `${folderName}.zip`;
+      link.click();
+    }
+  </script>
+</body>
+</html>
