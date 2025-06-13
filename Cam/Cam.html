@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Zata Mod</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <style>
+    body {
+      background: linear-gradient(to right, #e0f7ff, #ffffff);
+      font-family: sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      width: 400px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #0077cc;
+      margin-bottom: 20px;
+    }
+
+    .range-group {
+      margin-bottom: 20px;
+    }
+
+    .value {
+      font-weight: bold;
+      color: #0077cc;
+    }
+
+    button {
+      background: #0077cc;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #005fa3;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Mod Cam Xa</h1>
+    <div class="range-group">
+      <label>Cam Xa: <span class="value" id="hightValue">1.0</span></label><br>
+      <input type="range" id="seekbar" min="1.0" max="5.0" step="0.1" value="1.0">
+    </div>
+    <button onclick="process()">Chỉnh sửa và Tải về</button>
+  </div>
+
+  <script>
+    const seekbar = document.getElementById("seekbar");
+    const hightValue = document.getElementById("hightValue");
+    seekbar.oninput = () => {
+      hightValue.textContent = seekbar.value;
+    };
+
+    const actorUrl = "https://raw.githubusercontent.com/ZataMod/Skin/refs/heads/main/Cam/Actor_530_Actions.pkg.bytes";
+    const commonUrl = "https://raw.githubusercontent.com/ZataMod/Skin/refs/heads/main/Cam/CommonActions.pkg.bytes";
+
+    async function fetchBinary(url) {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error("Lỗi tải file từ " + url);
+      return await res.arrayBuffer();
+    }
+
+    async function process() {
+      const hight = parseFloat(seekbar.value).toFixed(1);
+      const folderPath = `Mod Cam Xa ${hight}/files/Resources/1.58.1/Ages/Prefab_Characters/Prefab_Hero/`;
+
+      try {
+        const [actorData, commonData] = await Promise.all([
+          fetchBinary(actorUrl),
+          fetchBinary(commonUrl)
+        ]);
+
+        const actorZip = await JSZip.loadAsync(actorData);
+        const targetXml = "530_Dirak/skill/P2E1.xml";
+
+        if (actorZip.file(targetXml)) {
+          let xmlContent = await actorZip.file(targetXml).async("string");
+          xmlContent = xmlContent.replace(/ZataMod/g, hight);
+          actorZip.file(targetXml, xmlContent);
+        } else {
+          alert("Không tìm thấy file XML trong Actor.");
+          return;
+        }
+
+        const finalZip = new JSZip();
+        // Nén lại Actor sau khi sửa
+        const newActorBlob = await actorZip.generateAsync({ type: "uint8array" });
+        finalZip.file(folderPath + "Actor_530_Actions.pkg.bytes", newActorBlob);
+        // Thêm Common file vào
+        finalZip.file(folderPath + "CommonActions.pkg.bytes", commonData);
+
+        const resultBlob = await finalZip.generateAsync({ type: "blob" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(resultBlob);
+        a.download = `Mod Cam Xa ${hight}.zip`;
+        a.click();
+      } catch (err) {
+        alert("Đã xảy ra lỗi: " + err.message);
+      }
+    }
+  </script>
+</body>
+</html>
