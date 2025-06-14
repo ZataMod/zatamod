@@ -246,7 +246,7 @@
       const ipData = await ipRes.json();
       const ip = ipData.ip;
 
-      const vpnRes = await fetch(`https://proxycheck.io/v2/${ip}?vpn=1&asn=1`);
+      const vpnRes = await fetch(`https://proxycheck.io/v2/${ip}?vpn=1&asn=1`,{mode: 'no-cors'});
       const vpnData = await vpnRes.json();
 
       console.log("Dữ liệu từ proxycheck.io:", vpnData);
