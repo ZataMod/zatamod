@@ -252,13 +252,54 @@ fetch("https://ipapi.co/json/")
       console.log("✅ VPN có vẻ đang bật");
     } else {
       document.body.innerHTML = `
-        <h2 style="color:red;text-align:center;margin-top:30vh">⚠️ Vui lòng bật VPN để truy cập trang này!</h2>
-      `;
-    }
+    <div style="
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      font-family: sans-serif;
+      padding: 20px;
+    ">
+      <h2 style="color:red; font-size: 24px; margin-bottom: 10px;">
+        ⚠️ Vui lòng bật VPN để truy cập trang này!
+      </h2>
+      
+      <p style="font-size: 16px; margin-bottom: 20px;">
+        Bạn có thể cài đặt ứng dụng <b>VPN 1.1.1.1</b> miễn phí tại:
+      </p>
+
+      <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
+        <a href="https://apps.apple.com/app/id1423538627" target="_blank" style="
+          background: #000000;
+          color: white;
+          padding: 10px 20px;
+          border-radius: 8px;
+          text-decoration: none;
+          font-size: 16px;
+        ">Tải cho iOS</a>
+
+        <a href="https://play.google.com/store/apps/details?id=com.cloudflare.onedotonedotonedotone" target="_blank" style="
+          background: #34a853;
+          color: white;
+          padding: 10px 20px;
+          border-radius: 8px;
+          text-decoration: none;
+          font-size: 16px;
+        ">Tải cho Android</a>
+      </div>
+
+      <p style="font-size: 13px; margin-top: 10px; color: gray;">
+        Ứng dụng chính thức của Cloudflare – miễn phí, không cần đăng ký.
+      </p>
+    </div>
+  `;
+}
   })
   .catch(err => {
     document.body.innerHTML = `
-      <h2 style="color:red;text-align:center;margin-top:30vh">🚫 Không thể kiểm tra IP</h2>
+      <h2 style="color:red;text-align:center;margin-top:30vh">🤚 Yêu cầu tắt chặn quảng cáo!</h2>
     `;
   });
   </script>
