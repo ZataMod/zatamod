@@ -239,17 +239,28 @@
   </script>
 
   <script>
-fetch("https://ipapi.co/json/")
+fetch("http://ip-api.com/json/?fields=66846719")
   .then(res => res.json())
   .then(data => {
-    const ip = data.ip;
+    const ip = data.query;
     const org = (data.org || "").toLowerCase();
-    const country = data.country;
+    const isp = (data.isp || "").toLowerCase();
+    const asn = (data.as || "").toLowerCase();
+    const allInfo = org + " " + isp + " " + asn;
 
-    console.log("IP:", ip, "Org:", org, "Country:", country);
+    console.log("IP:", ip);
+    console.log("Org:", org);
+    console.log("ISP:", isp);
+    console.log("AS:", asn);
 
-    if (org.includes("vpn") || org.includes("cloud") || org.includes("hosting")) {
-      console.log("✅ VPN có vẻ đang bật");
+    if (
+      allInfo.includes("cloudflare") ||
+      allInfo.includes("warp") ||
+      allInfo.includes("vpn") ||
+      allInfo.includes("cloud") ||
+      allInfo.includes("hosting")
+    ) {
+      console.log("✅ VPN 1.1.1.1 (WARP) có vẻ đang bật.");
     } else {
       document.body.innerHTML = `
     <div style="
@@ -295,11 +306,14 @@ fetch("https://ipapi.co/json/")
       </p>
     </div>
   `;
-}
+    }
   })
   .catch(err => {
+    console.error("Lỗi:", err);
     document.body.innerHTML = `
-      <h2 style="color:red;text-align:center;margin-top:30vh">🤚 Yêu cầu tắt chặn quảng cáo!</h2>
+      <h2 style="color:red;text-align:center;margin-top:30vh">
+        🤚 Yêu cầu tắt chặn quảng cáo!
+      </h2>
     `;
   });
   </script>
