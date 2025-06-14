@@ -237,5 +237,30 @@
       });
     });
   </script>
+
+  <script>
+fetch("https://ipapi.co/json/")
+  .then(res => res.json())
+  .then(data => {
+    const ip = data.ip;
+    const org = (data.org || "").toLowerCase();
+    const country = data.country;
+
+    console.log("IP:", ip, "Org:", org, "Country:", country);
+
+    if (org.includes("vpn") || org.includes("cloud") || org.includes("hosting")) {
+      console.log("✅ VPN có vẻ đang bật");
+    } else {
+      document.body.innerHTML = `
+        <h2 style="color:red;text-align:center;margin-top:30vh">⚠️ Vui lòng bật VPN để truy cập trang này!</h2>
+      `;
+    }
+  })
+  .catch(err => {
+    document.body.innerHTML = `
+      <h2 style="color:red;text-align:center;margin-top:30vh">🚫 Không thể kiểm tra IP</h2>
+    `;
+  });
+  </script>
 </body>
 </html>
