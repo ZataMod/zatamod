@@ -1,25 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Zata Mod</title>
   <style>
-    .hidden { display: none; }
-    .bg {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url('https://lh3.googleusercontent.com/d/1BQj-RDLNHYH54AwK5e0SyQQMzxQn_JNF');
-      background-size: cover;
-      background-position: center;
-      filter: blur(10px);
-      transform: scale(1.05);
-      z-index: -1;
-      border-radius: inherit;
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: url('https://lh3.googleusercontent.com/d/1BQj-RDLNHYH54AwK5e0SyQQMzxQn_JNF') center/cover no-repeat fixed;
     }
+
     @font-face {
       font-family: 'Brown Pro';
       src: url('./font.otf') format('opentype');
@@ -27,281 +18,252 @@
       font-style: normal;
       font-display: swap;
     }
-    .list-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      padding: 20px;
-      justify-items: center;
-    }
-    .image-wrapper {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%;
-      overflow: hidden;
-      border-radius: 10px;
-      border: 1.5px solid #ccc;
-      box-sizing: border-box;
-    }
-    .large-image {
-      position: absolute;
-      top: 0;
-      left: 0;
+
+    .overlay {
+      position: fixed;
       width: 100%;
       height: 100%;
-      object-fit: cover;
-      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      z-index: -1;
     }
-    .overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      padding: 20px;
+      max-width: 960px;
+      margin: auto;
+    }
+
+    .card {
+      border: 3px solid white;
+      border-radius: 12px;
+      overflow: hidden;
+      background-color: rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card img {
       width: 100%;
-      height: 60%;
-      background: linear-gradient(to top, rgba(0, 0, 0, 100) 0%, rgba(0, 0, 0, 0) 100%);
-      z-index: 0;
-      border-bottom-left-radius: 10px;
-      border-bottom-right-radius: 10px;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
     }
-    .bottom-info {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      right: 10px;
+
+    .card p {
+      text-align: center;
+      margin: 5px 0;
+      font-weight: bold;
+      color: white;
+      font-family: 'Brown Pro';
+      font-weight: 900;
+      text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
+    }
+
+    .popup {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+    }
+
+    .popup-content {
+      background: rgba(0, 0, 0, 0);
+      backdrop-filter: blur(3px);
+      border-radius: 16px;
+      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.4);
+      width: 90%;
+      max-width: 300px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      transform: scale(0.4);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .popup-header {
       display: flex;
       align-items: center;
-      gap: 10px;
-      z-index: 1;
+      margin-bottom: 15px;
     }
-    .small-image {
-      width: 50px;
-      height: 50px;
-      border-radius: 10%;
-      border: 1.5px solid white;
+
+    .popup-header img {
+      width: 120px;
+      height: 120px;
       object-fit: cover;
-      flex-shrink: 0;
+      border-radius: 12px;
+      border: 3px solid white;
+      margin-right: 15px;
     }
-    .text-info {
+
+    .popup-header .info {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      flex-grow: 1;
-      min-width: 0;
     }
-    .label {
-      position: absolute;
-      bottom: 0px;
-      left: calc(10px + 30px + 10px);
+
+    .popup-header .info h2 {
       color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 25px;
-      z-index: 1;
-      white-space: nowrap;
+      text-align: center;
+      font-size: 35px;
+      margin: 0 0 0;
       font-family: 'Brown Pro';
       font-weight: 900;
       text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
     }
-    .title {
-      position: absolute;
-      bottom: 0px;
-      left: calc(10px + 30px + 10px);
+
+    .popup-header .info p {
       color: white;
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 17px;
-      z-index: 1;
-      white-space: nowrap;
+      text-align: center;
+      font-size: 20px;
+      margin: 0 0 0;
       font-family: 'Brown Pro';
       font-weight: 900;
       text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
     }
-    .button-link {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 5px;
+
+    iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: none;
+      border-radius: 12px;
+      border: 2px solid white;
+      margin-top: 0px;
+    }
+
+    .popup button {
+      margin-top: 12px;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      background-color: #1976d2;
+      color: white;
+      border-radius: 8px;
       cursor: pointer;
-      flex-shrink: 0;
     }
-    .button-svg {
-      width: 28px;
-      height: 28px;
-      fill: white;
+
+    .popup button:hover {
+      background-color: #125aa3;
+    }
+
+    @media (max-width: 768px) {
+      .gallery {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .gallery {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .popup-header {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .popup-header img {
+        margin-bottom: 10px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="bg"></div>
-  <div class="list-container"></div>
 
-  <script type="application/json" id="skin-json">
-[
-  {
-    "id": "150",
-    "isActive": true,
-    "largeImageSrc": "https://lh3.googleusercontent.com/d/1qV8UVXhHvXm2ehy-U1P_1mlj3-Q9011U",
-    "smallImageSrc": "https://lh3.googleusercontent.com/d/1qQU-ZabeF9rj1ns47tD65bvgZKsWdVk1",
-    "label": "NAKROTH",
-    "title": "BACH DIEN CHIEN THUONG",
-    "downloadLink": "https://link4m.com/XIpMUTFf"
-  },
-  {
-    "id": "133",
-    "isActive": true,
-    "largeImageSrc": "https://lh3.googleusercontent.com/d/1qEUbJLpZeienbhjnRc1ypnTUr3ecxtl4",
-    "smallImageSrc": "https://lh3.googleusercontent.com/d/1qBJTbUVw1zFbZ0f_VF5qCEPjLwMkd3Fr",
-    "label": "VALHEIN",
-    "title": "THU NGUYEN VE THAN",
-    "downloadLink": "https://link4m.com/2usIlZi"
-  }
-]
-</script>
+  <div class="overlay"></div>
+
+  <div class="gallery" id="gallery"></div>
+
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <div class="popup-header">
+        <img id="popup-img" src="" />
+        <div class="info">
+          <h2 id="popup-name"></h2>
+          <p id="popup-title"></p>
+        </div>
+      </div>
+      <iframe id="popup-video" src="" allowfullscreen></iframe>
+      <button id="popup-download">Tải xuống</button>
+    </div>
+  </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const listContainer = document.querySelector('.list-container');
-      const jsonData = document.getElementById('skin-json').textContent;
-      const listData = JSON.parse(jsonData);
+    const heroes = [
+                        {
+                            img: "https://lh3.googleusercontent.com/d/1qQU-ZabeF9rj1ns47tD65bvgZKsWdVk1",
+                            name_hero: "NAKROTH",
+                            title: "BACH DIEN CHIEN THUONG",
+                            video: "https://youtube.com/embed/YB7KfCslV0A?si=LBXIA8Fs2kxV1zBt",
+                            link: "https://link4m.com/XIpMUTFf"
+                        },
+                        {
+                            img: "https://lh3.googleusercontent.com/d/1qBJTbUVw1zFbZ0f_VF5qCEPjLwMkd3Fr",
+                            name_hero: "VALHEIN",
+                            title: "THU NGUYEN VE THAN",
+                            video: "https://youtube.com/embed/_wf23GCZtY0?si=UOWGHSYK6YvCibQo",
+                            link: "https://link4m.com/2usIlZi"
+                        }
+                  ];
 
-      const createListItem = (itemData) => {
-        const imageWrapper = document.createElement('div');
-        imageWrapper.classList.add('image-wrapper');
+    const gallery = document.getElementById("gallery");
+    const popup = document.getElementById("popup");
+    const popupImg = document.getElementById("popup-img");
+    const popupName = document.getElementById("popup-name");
+    const popupTitle = document.getElementById("popup-title");
+    const popupVideo = document.getElementById("popup-video");
+    const popupDownload = document.getElementById("popup-download");
+    const popupContent = document.querySelector(".popup-content");
 
-        const largeImage = document.createElement('img');
-        largeImage.classList.add('large-image');
-        largeImage.src = itemData.largeImageSrc;
-        imageWrapper.appendChild(largeImage);
+    heroes.forEach((hero) => {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `<img src="${hero.img}" /><p>${hero.name_hero}</p>`;
+      card.addEventListener("click", (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = rect.left + rect.width / 2;
+        const y = rect.top + rect.height / 2;
 
-        const overlay = document.createElement('div');
-        overlay.classList.add('overlay');
-        imageWrapper.appendChild(overlay);
+        popupImg.src = hero.img;
+        popupName.textContent = hero.name_hero;
+        popupTitle.textContent = hero.title;
+        popupVideo.src = hero.video;
+        popupDownload.onclick = () => window.open(hero.link, "_blank");
 
-        const bottomInfo = document.createElement('div');
-        bottomInfo.classList.add('bottom-info');
+        popup.style.display = "flex";
 
-        const smallImage = document.createElement('img');
-        smallImage.classList.add('small-image');
-        smallImage.src = itemData.smallImageSrc;
-        bottomInfo.appendChild(smallImage);
+        popupContent.style.transformOrigin = `${x}px ${y}px`;
+        popupContent.style.transform = "scale(0.4)";
+        popupContent.style.opacity = "0";
 
-        const textInfo = document.createElement('div');
-        textInfo.classList.add('text-info');
-
-        const labelElement = document.createElement('h1');
-        labelElement.classList.add('label');
-        labelElement.textContent = itemData.label;
-        textInfo.appendChild(labelElement);
-
-        const titleElement = document.createElement('span');
-        titleElement.classList.add('title');
-        titleElement.textContent = itemData.title;
-        textInfo.appendChild(titleElement);
-
-        bottomInfo.appendChild(textInfo);
-
-        const buttonLink = document.createElement('a');
-        buttonLink.classList.add('button-link');
-        buttonLink.href = itemData.downloadLink;
-        buttonLink.target = '_blank';
-
-        const svgContent = `
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-download button-svg" viewBox="0 0 16 16">
-            <path d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383"/>
-            <path d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0 -1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708z"/>
-          </svg>
-        `;
-        buttonLink.innerHTML = svgContent;
-        bottomInfo.appendChild(buttonLink);
-
-        imageWrapper.appendChild(bottomInfo);
-        return imageWrapper;
-      };
-
-      listData.forEach(item => {
-        if (item.isActive === true) {
-          const listItemElement = createListItem(item);
-          if (listContainer) {
-            listContainer.appendChild(listItemElement);
-          }
-        }
+        requestAnimationFrame(() => {
+          popupContent.style.transform = "scale(1)";
+          popupContent.style.opacity = "1";
+        });
       });
+      gallery.appendChild(card);
     });
-  </script>
-  <script>
-  fetch("https://api.ipify.org?format=json")
-  .then(res => res.json())
-  .then(data => {
-    const currentIP = data.ip;
-    console.log("Địa chỉ IP hiện tại:", currentIP);
 
-    const savedIP = localStorage.getItem("real_ip");
-
-    if (savedIP === null) {
-      localStorage.setItem("real_ip", currentIP);
-      document.body.innerHTML = `
-        <h2 style="text-align:center;margin-top:30vh">
-          🔁 Vui lòng tải lại trang sau khi bạn tắt hoặc bật VPN.
-        </h2>
-      `;
-    } else {
-      if (savedIP !== currentIP) {
-        console.log("✅ VPN có thể đang bật → truy cập web.");
-      } else {
-        document.body.innerHTML = `
-          <div style="
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            text-align: center;
-            font-family: sans-serif;
-            padding: 20px;
-          ">
-            <h2 style="color:red; font-size: 24px; margin-bottom: 10px;">
-              ⚠️ Vui lòng bật VPN để truy cập trang này!
-            </h2>
-            <p style="font-size: 16px; margin-bottom: 20px;">
-              Bạn có thể cài đặt ứng dụng <b>VPN 1.1.1.1</b> miễn phí tại:
-            </p>
-
-            <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-              <a href="https://apps.apple.com/app/id1423538627" target="_blank" style="
-                background: #000000;
-                color: white;
-                padding: 10px 20px;
-                border-radius: 8px;
-                text-decoration: none;
-                font-size: 16px;
-              ">Tải cho iOS</a>
-
-              <a href="https://play.google.com/store/apps/details?id=com.cloudflare.onedotonedotonedotone" target="_blank" style="
-                background: #34a853;
-                color: white;
-                padding: 10px 20px;
-                border-radius: 8px;
-                text-decoration: none;
-                font-size: 16px;
-              ">Tải cho Android</a>
-            </div>
-
-            <p style="font-size: 13px; margin-top: 10px; color: gray;">
-              Ứng dụng chính thức của Cloudflare – miễn phí, không cần đăng ký.
-            </p>
-          </div>
-        `;
+    popup.addEventListener("click", (e) => {
+      if (e.target === popup) {
+        popupContent.style.transform = "scale(0.4)";
+        popupContent.style.opacity = "0";
+        setTimeout(() => {
+          popup.style.display = "none";
+          popupVideo.src = "";
+        }, 300);
       }
-    }
-  })
-  .catch(err => {
-    console.error("Lỗi:", err);
-    document.body.innerHTML = `
-      <h2 style="color:red;text-align:center;margin-top:30vh">
-        🤚 Lỗi mạng hoặc bị chặn!
-      </h2>
-    `;
-  });
+    });
   </script>
 </body>
 </html>
