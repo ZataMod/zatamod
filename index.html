@@ -147,34 +147,6 @@
       background-color: #125aa3;
     }
 
-    .stats-fixed {
-      position: fixed;
-      bottom: 10px;
-      left: 10px;
-      background: rgba(0, 0, 0, 0.4);
-      border: 2px solid white;
-      border-radius: 10px;
-      padding: 8px 12px;
-      z-index: 999;
-      font-family: 'Brown Pro', sans-serif;
-      font-size: 13px;
-      color: white;
-      backdrop-filter: blur(4px);
-    }
-
-    .stat-line {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin: 4px 0;
-    }
-
-    .stat-line svg {
-      width: 18px;
-      height: 18px;
-      fill: white;
-    }
-
     @media (max-width: 480px) {
       .gallery {
         grid-template-columns: repeat(3, 1fr);
@@ -196,8 +168,7 @@
   <div class="overlay"></div>
 
   <div class="gallery" id="gallery"></div>
-  <script async src="https://www.profitableratecpm.com/mh078pcxw?key=922aa0c2ce085c319e41fecfec273ee4"></script>
-  <div id="ads"></div>
+
   <div class="popup" id="popup">
     <div class="popup-content">
       <div class="popup-header">
@@ -212,23 +183,17 @@
     </div>
   </div>
 
-  <div class="stats-fixed">
-    <div class="stat-line">
-      <svg viewBox="0 0 24 24"><path d="M12 12c2.67 0 8 1.34 8 4v3H4v-3c0-2.66 5.33-4 8-4zm0-2a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/></svg>
-      <span><strong id="onlineCount">0</strong> online</span>
-    </div>
-  </div>
-
   <script>
     const heroes = [
-  {
-    "img": "https://lh3.googleusercontent.com/d/1CQUBLaK85h38cILbeRBFZ5izSBLEBxKK",
-    "name_hero": "VERES",
-    "title": "RAIDEN SHOGUN DA SAC",
-    "video": "https://www.youtube.com/embed/y7KbqfSnZEw",
-    "link": "https://link4m.com/uzmYMH"
-  }
-];
+      {
+        "img": "https://lh3.googleusercontent.com/d/1CQUBLaK85h38cILbeRBFZ5izSBLEBxKK",
+        "name_hero": "VERES",
+        "title": "RAIDEN SHOGUN DA SAC",
+        "video": "https://www.youtube.com/embed/y7KbqfSnZEw",
+        "link": "https://link4m.com/uzmYMH"
+      }
+    ];
+
     const gallery = document.getElementById("gallery");
     const popup = document.getElementById("popup");
     const popupImg = document.getElementById("popup-img");
@@ -278,39 +243,8 @@
     });
   </script>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-    import { getDatabase, ref, onValue, push, onDisconnect } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyANXzm1TMkEp7hE4SR90EX9LGzjEROhjlY",
-      authDomain: "zatamod-5a912.firebaseapp.com",
-      databaseURL: "https://zatamod-5a912-default-rtdb.firebaseio.com",
-      projectId: "zatamod-5a912",
-      storageBucket: "zatamod-5a912.appspot.com",
-      messagingSenderId: "11794249840",
-      appId: "1:11794249840:web:02e703dcb266c6193d9cb5",
-      measurementId: "G-QPH5TG3J3S"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const connectionsRef = ref(db, "/connections");
-    const historyRef = ref(db, "/history");
-    const connectedRef = ref(db, ".info/connected");
-
-    onValue(connectedRef, (snap) => {
-      if (snap.val() === true) {
-        const con = push(connectionsRef, true);
-        onDisconnect(con).remove();
-      }
-    });
-
-    onValue(connectionsRef, (snap) => {
-      document.getElementById("onlineCount").innerText = snap.size;
-    });
-
-  </script>
+  <!-- 🔸 Ad Code from Profitableratecpm -->
+  <script type='text/javascript' src='//www.profitableratecpm.com/mh078pcxw?key=922aa0c2ce085c319e41fecfec273ee4'></script>
 
 </body>
 </html>
