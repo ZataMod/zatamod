@@ -4,176 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Zata Mod</title>
-
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background: url('https://images.pexels.com/photos/3052361/pexels-photo-3052361.jpeg') center/cover no-repeat fixed;
-    }
-
-    @font-face {
-      font-family: 'Brown Pro';
-      src: url('./font.otf') format('opentype');
-      font-weight: 900;
-      font-style: normal;
-      font-display: swap;
-    }
-
-    .overlay {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 255, 255, 0);
-      backdrop-filter: blur(5px);
-      z-index: -1;
-    }
-
-    .ads-box {
-      max-width: 728px;
-      margin: 12px auto;
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      padding: 20px;
-      max-width: 960px;
-      margin: auto;
-    }
-
-    .card {
-      overflow: hidden;
-      background-color: rgba(255, 255, 255, 0);
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-
-    .card:hover {
-      transform: scale(1.03);
-    }
-
-    .card img {
-      width: 90%;
-      aspect-ratio: 1 / 1;
-      object-fit: cover;
-      border: 3px solid white;
-      border-radius: 12px;
-    }
-
-    .card p {
-      text-align: center;
-      margin: 5px 0;
-      font-weight: bold;
-      color: white;
-      font-family: 'Brown Pro';
-      font-weight: 900;
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
-    }
-
-    .popup {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      display: none;
-      justify-content: center;
-      align-items: center;
-      background-color: rgba(0, 0, 0, 0.6);
-      z-index: 1000;
-    }
-
-    .popup-content {
-      background: rgba(0, 0, 0, 0);
-      backdrop-filter: blur(3px);
-      border-radius: 16px;
-      box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.4);
-      width: 90%;
-      max-width: 300px;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      transform: scale(0.4);
-      opacity: 0;
-      transition: transform 0.3s ease, opacity 0.3s ease;
-    }
-
-    .popup-header {
-      display: flex;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-
-    .popup-header img {
-      width: 120px;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 12px;
-      border: 3px solid white;
-      margin-right: 15px;
-    }
-
-    .popup-header .info h2,
-    .popup-header .info p {
-      color: white;
-      text-align: center;
-      font-family: 'Brown Pro';
-      font-weight: 900;
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
-      margin: 0;
-    }
-
-    .popup-header .info h2 {
-      font-size: 35px;
-    }
-
-    .popup-header .info p {
-      font-size: 20px;
-    }
-
-    iframe {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      border: 2px solid white;
-      border-radius: 12px;
-    }
-
-    .popup button {
-      margin-top: 12px;
-      padding: 10px;
-      font-size: 16px;
-      border: none;
-      background-color: #1976d2;
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .popup button:hover {
-      background-color: #125aa3;
-    }
-
-    @media (max-width: 480px) {
-      .gallery {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .popup-header {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .popup-header img {
-        margin-bottom: 10px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <div class="overlay"></div>
   <div class="gallery" id="gallery"></div>
-  
+  <button id="openCustomPopup">Game</button>
+  <div id="customPopup">
+  <div class="popup-box">
+    <iframe id="popupIframe" src="popup-content.html" allowfullscreen></iframe>
+    <button class="close-btn" onclick="closeCustomPopup()">×</button>
+  </div>
+</div>
   <div class="popup" id="popup">
     <div class="popup-content">
       <div class="popup-header">
@@ -184,76 +27,11 @@
         </div>
       </div>
       <iframe id="popup-video" src="" allowfullscreen></iframe>
-      <button id="popup-download">Tải xuống</button>
+      <button id="popup-download">Download</button>
     </div>
   </div>
 
-  <script>
-    const heroes = [
-  {
-    "img": "https://lh3.googleusercontent.com/d/1HC1wcUqcLg14AZbqIgLrctoDJL2MKUGj",
-    "name_hero": "HAYATE",
-    "title": "GOJO SATURO + BUTTON",
-    "video": "https://www.youtube.com/embed/vMc4sr7ySKU",
-    "link": "https://link4m.com/mU7wOWFW"
-  },
-  {
-    "img": "https://lh3.googleusercontent.com/d/1CQUBLaK85h38cILbeRBFZ5izSBLEBxKK",
-    "name_hero": "VERES",
-    "title": "RAIDEN SHOGUN DA SAC",
-    "video": "https://www.youtube.com/embed/y7KbqfSnZEw",
-    "link": "https://link4m.com/uzmYMH"
-  }
-];
-
-    const gallery = document.getElementById("gallery");
-    const popup = document.getElementById("popup");
-    const popupImg = document.getElementById("popup-img");
-    const popupName = document.getElementById("popup-name");
-    const popupTitle = document.getElementById("popup-title");
-    const popupVideo = document.getElementById("popup-video");
-    const popupDownload = document.getElementById("popup-download");
-    const popupContent = document.querySelector(".popup-content");
-
-    heroes.forEach((hero) => {
-      const card = document.createElement("div");
-      card.className = "card";
-      card.innerHTML = `<img src="${hero.img}" /><p>${hero.name_hero}</p>`;
-      card.addEventListener("click", (e) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        const x = rect.left + rect.width / 2;
-        const y = rect.top + rect.height / 2;
-
-        popupImg.src = hero.img;
-        popupName.textContent = hero.name_hero;
-        popupTitle.textContent = hero.title;
-        popupVideo.src = hero.video;
-        popupDownload.onclick = () => window.open(hero.link, "_blank");
-
-        popup.style.display = "flex";
-        popupContent.style.transformOrigin = `${x}px ${y}px`;
-        popupContent.style.transform = "scale(0.4)";
-        popupContent.style.opacity = "0";
-
-        requestAnimationFrame(() => {
-          popupContent.style.transform = "scale(1)";
-          popupContent.style.opacity = "1";
-        });
-      });
-      gallery.appendChild(card);
-    });
-
-    popup.addEventListener("click", (e) => {
-      if (e.target === popup) {
-        popupContent.style.transform = "scale(0.4)";
-        popupContent.style.opacity = "0";
-        setTimeout(() => {
-          popup.style.display = "none";
-          popupVideo.src = "";
-        }, 300);
-      }
-    });
-  </script>
-
+  <script src="hero.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
