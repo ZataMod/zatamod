@@ -1,1 +1,1 @@
-const heroes = []
+const heroes = [];
