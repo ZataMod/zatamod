@@ -1,5 +1,12 @@
 const heroes = [
   {
+    "img": "https://lh3.googleusercontent.com/d/1qYe6QOa695j2m3n7R0z7-3Csq5AuPDDo",
+    "name_hero": "VALHEIN",
+    "title": "THU NGUYEN VE THAN",
+    "video": "https://www.youtube.com/embed/3rrayUZVyQA",
+    "link": "https://link4m.com/Qekav"
+  },
+  {
     "img": "https://lh3.googleusercontent.com/d/1UVna0fjwVW23dgqx1qV_kD26105KfnsW",
     "name_hero": "LINH",
     "title": "DETECTIVE CONAN",
