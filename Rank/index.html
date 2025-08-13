@@ -107,7 +107,7 @@
 
       const zip = new JSZip();
       const folderName = idMap[selectedId].replace(/\s+/g, "_");
-      zip.folder(`${folderName}/files/Resources/1.58.1/Databin/Client/Rank`)
+      zip.folder(`${folderName}/files/Resources/1.59.1/Databin/Client/Rank`)
         .file("RankGrade.bytes", hexToBytes(finalHex));
 
       const blob = await zip.generateAsync({ type: "blob" });
