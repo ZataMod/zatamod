@@ -49,10 +49,15 @@ popup.addEventListener("click", (e) => {
 const openPopupBtn = document.getElementById("openCustomPopup");
 const customPopup = document.getElementById("customPopup");
 const popupIframe = document.getElementById("popupIframe");
+const openChannel = document.getElementById("name");
 
 openPopupBtn.addEventListener("click", () => {
   popupIframe.src = "https://zatamod.github.io/FlapCat";
   customPopup.style.display = "flex";
+});
+
+openChannel.addEventListener("click", () => {
+  window.open("https://youtube.com/@zatamod", "_blank");
 });
 
 function closeCustomPopup() {

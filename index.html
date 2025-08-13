@@ -7,16 +7,19 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <div class="overlay"></div>
+  <div class="profile">
+    <img id="avt" src="avatar.jpg">
+    <button id="name">Zata Mod</button>
+  </div>
   <div class="gallery" id="gallery"></div>
   <button id="openCustomPopup">Game</button>
   <div id="customPopup">
-  <div class="popup-box">
-    <iframe id="popupIframe" src="popup-content.html" allowfullscreen></iframe>
-    <button class="close-btn" onclick="closeCustomPopup()">×</button>
+    <div class="popup-box">
+      <iframe id="popupIframe" src="popup-content.html" allowfullscreen></iframe>
+      <button class="close-btn" onclick="closeCustomPopup()">×</button>
+    </div>
   </div>
-</div>
   <div class="popup" id="popup">
     <div class="popup-content">
       <div class="popup-header">
