@@ -1,66 +1,151 @@
-const gallery = document.getElementById("gallery");
-const popup = document.getElementById("popup");
-const popupImg = document.getElementById("popup-img");
-const popupName = document.getElementById("popup-name");
-const popupTitle = document.getElementById("popup-title");
-const popupVideo = document.getElementById("popup-video");
-const popupDownload = document.getElementById("popup-download");
-const popupContent = document.querySelector(".popup-content");
+// Audio setup
+const bgMusic = new Audio('https://vnso-zn-23-tf-preview-z3.zmdcdn.me/3652b829849320881fa9fddbc2177f5a?authen=exp=1755685899~acl=/3652b829849320881fa9fddbc2177f5a*~hmac=8252efc3af173fbc7ffc1c30aa09cd8e');
+bgMusic.loop = true;
+let musicStarted = false;
+let animationsStarted = false;
 
-heroes.forEach((hero) => {
-  const card = document.createElement("div");
-  card.className = "card";
-  card.innerHTML = `<img src="${hero.img}" /><p>${hero.name_hero}</p>`;
-  card.addEventListener("click", (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = rect.left + rect.width / 2;
-    const y = rect.top + rect.height / 2;
+// DOM elements
+const container = document.getElementById("gallery");
+const popup = document.getElementById('welcomePopup');
 
-    popupImg.src = hero.img;
-    popupName.textContent = hero.name_hero;
-    popupTitle.textContent = hero.title;
-    popupVideo.src = hero.video;
-    popupDownload.onclick = () => window.open(hero.link, "_blank");
+// Preload images
+function preloadImages(urls, allImagesLoadedCallback) {
+  let loadedCounter = 0;
+  const toBeLoadedNumber = urls.length;
+  
+  urls.forEach(function(url) {
+    const img = new Image();
+    img.src = url;
+    img.onload = function() {
+      loadedCounter++;
+      if(loadedCounter === toBeLoadedNumber) {
+        allImagesLoadedCallback();
+      }
+    };
+  });
+}
 
-    popup.style.display = "flex";
-    popupContent.style.transformOrigin = `${x}px ${y}px`;
-    popupContent.style.transform = "scale(0.4)";
-    popupContent.style.opacity = "0";
+// Render gallery
+function renderGallery() {
+  heroes.forEach(hero => {
+    const figure = document.createElement("figure");
 
-    requestAnimationFrame(() => {
-      popupContent.style.transform = "scale(1)";
-      popupContent.style.opacity = "1";
+    const img = document.createElement("img");
+    img.src = hero.img;
+
+    const caption = document.createElement("figcaption");
+    caption.textContent = hero.title;
+
+    const downloadBtn = document.createElement("button");
+    downloadBtn.textContent = "DOWNLOAD";
+    downloadBtn.className = "download-btn";
+    downloadBtn.onclick = (e) => {
+      e.stopPropagation();
+      window.open(hero.link, "_blank");
+    };
+
+    figure.appendChild(img);
+    figure.appendChild(caption);
+    figure.appendChild(downloadBtn);
+    container.appendChild(figure);
+
+    // Hover effects
+    figure.addEventListener("mouseenter", () => {
+      setTimeout(() => {
+        downloadBtn.classList.add("unlocked");
+      }, 500);
+    });
+
+    figure.addEventListener("mouseleave", () => {
+      downloadBtn.classList.remove("unlocked");
     });
   });
-  gallery.appendChild(card);
-});
-
-popup.addEventListener("click", (e) => {
-  if (e.target === popup) {
-    popupContent.style.transform = "scale(0.4)";
-    popupContent.style.opacity = "0";
-    setTimeout(() => {
-      popup.style.display = "none";
-      popupVideo.src = "";
-    }, 300);
-  }
-});
-
-const openPopupBtn = document.getElementById("openCustomPopup");
-const customPopup = document.getElementById("customPopup");
-const popupIframe = document.getElementById("popupIframe");
-const openChannel = document.getElementById("name");
-
-openPopupBtn.addEventListener("click", () => {
-  popupIframe.src = "https://zatamod.github.io/FlapCat";
-  customPopup.style.display = "flex";
-});
-
-openChannel.addEventListener("click", () => {
-  window.open("https://youtube.com/@zatamod", "_blank");
-});
-
-function closeCustomPopup() {
-  customPopup.style.display = "none";
-  popupIframe.src = "";
 }
+
+// Animate soft rotating shadow
+function animateShadowCircle(el) {
+  let hue = 0;
+  let angle = 0;
+  const radius = 10;
+
+  function update() {
+    hue = (hue + 0.5) % 360;
+    angle += 0.05;
+
+    const x = Math.cos(angle) * radius;    
+    const y = Math.sin(angle) * radius;    
+
+    el.style.boxShadow = `    
+      ${x}px ${y}px 15px hsl(${hue}, 60%, 70%),    
+      ${-x}px ${-y}px 30px hsl(${(hue+120)%360}, 60%, 70%)    
+    `;    
+    requestAnimationFrame(update);
+  }
+  update();
+}
+
+// Start all animations and music
+function startExperience() {
+  if (!animationsStarted) {
+    // Start music
+    bgMusic.play().catch(e => console.log("Auto-play prevented:", e));
+    musicStarted = true;
+    
+    // Profile animations
+    gsap.to(".profile", { opacity: 1, duration: 0.1 });
+    gsap.to(".profile img", { 
+      scale: 1, 
+      opacity: 1, 
+      duration: 1, 
+      ease: "back.out(1.7)" 
+    });
+    gsap.to(".profile button", { 
+      y: 0, 
+      opacity: 1, 
+      duration: 0.8, 
+      delay: 0.5, 
+      ease: "power3.out" 
+    });
+
+    // Gallery animations after images load
+    preloadImages(heroes.map(h => h.img), () => {
+      gsap.to("figure", {
+        opacity: 1,
+        scale: 1,
+        duration: 0.8,
+        ease: "power3.out",
+        stagger: 0.2
+      });
+    });
+
+    // Shadow animations
+    const shadowElements = [
+      ...document.querySelectorAll("figure, .profile img, .profile button, .download-btn")
+    ];
+    shadowElements.forEach(el => animateShadowCircle(el));
+    
+    animationsStarted = true;
+  }
+}
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  // Render gallery
+  renderGallery();
+  
+  // Show popup
+  popup.style.display = 'flex';
+
+  // Close popup handlers
+  document.querySelector('.close-btn').addEventListener('click', () => {
+    popup.style.display = 'none';
+    startExperience();
+  });
+
+  popup.addEventListener('click', (e) => {
+    if (e.target === popup) {
+      popup.style.display = 'none';
+      startExperience();
+    }
+  });
+});
