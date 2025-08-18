@@ -1,5 +1,5 @@
 // Audio setup
-const bgMusic = new Audio('https://vnso-zn-23-tf-preview-z3.zmdcdn.me/3652b829849320881fa9fddbc2177f5a?authen=exp=1755685899~acl=/3652b829849320881fa9fddbc2177f5a*~hmac=8252efc3af173fbc7ffc1c30aa09cd8e');
+const bgMusic = new Audio('https://vnso-zn-23-tf-a128-z3.zmdcdn.me/4fa91f1f25b5b7007ce024e45809b208?authen=exp=1755689453~acl=/4fa91f1f25b5b7007ce024e45809b208*~hmac=7eb2a951b44a6c630f6203e8639402bc5a*~hmac=8252efc3af173fbc7ffc1c30aa09cd8e');
 bgMusic.loop = true;
 let musicStarted = false;
 let animationsStarted = false;
