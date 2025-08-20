@@ -1,5 +1,10 @@
 const heroes = [
   {
+    "img": "https://lh3.googleusercontent.com/d/19CpZJpJ-qxYfNgL0-iGxrVN3B9q2T6Nc",
+    "title": "ZATA BICH HAI THANH NU",
+    "link": "https://link4m.com/jEZoVO"
+  },
+  {
     "img": "https://lh3.googleusercontent.com/d/1eyIeI9fHK6rvWL2xkp7ZnTNpYdoZTqpg",
     "title": "NATALYA VE THAN",
     "link": "https://link4m.com/d4xck"
