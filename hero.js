@@ -1,5 +1,10 @@
 const heroes = [
   {
+    "img": "dl.ops.kgtw.garenanow.com/CHT/HeroTrainingLoadingNew_B36/19015.jpg",
+    "title": "HAYATE SATURO GOJO",
+    "link": "https://link4m.com/u5N40"
+  },
+  {
     "img": "https://lh3.googleusercontent.com/d/1F3gqPSShISENwi4C9WFKjBDF7rqBdpWt",
     "title": "KRIXI PHI THIEN",
     "link": "https://link4m.com/3SWSCLvA"
