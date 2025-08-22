@@ -1,7 +1,7 @@
 const heroes = [
   {
     "img": "https://lh3.googleusercontent.com/d/19i5-HUNkfilZGZqrRKqydE5Krtab-VZE",
-    "title": "HAYATE SATURO GOJO",
+    "title": "HAYATE SATORO GOJO",
     "link": "https://link4m.com/u5N40"
   },
   {
