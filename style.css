@@ -8,7 +8,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* PROFILE */
 .profile {
   text-align: center;
   margin: 20px 0 30px;
@@ -51,9 +50,8 @@ body {
   border-color: rgba(255, 255, 255, 0.6);
 }
 
-/* GALLERY */
 .container {
-  margin: 0 0 40px;
+  margin-bottom: 40px;
   width: 95%;
   display: flex;
   flex-direction: column;
@@ -110,7 +108,6 @@ figure:hover figcaption {
   opacity: 0;
 }
 
-/* DOWNLOAD BUTTON */
 .download-btn {
   position: absolute;
   top: 50%;
@@ -124,13 +121,13 @@ figure:hover figcaption {
   cursor: pointer;
   font-weight: bold;
   opacity: 0;
-  pointer-events: none; /* khoá ban đầu */
+  pointer-events: none;
   transition: opacity 0.3s ease;
   z-index: 10;
 }
 
 .download-btn.unlocked {
-  pointer-events: auto; /* mở khi hover animation xong */
+  pointer-events: auto;
 }
 
 figure:hover .download-btn {
@@ -139,12 +136,10 @@ figure:hover .download-btn {
 
 .popup-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8); /* Màn đen mờ đậm */
-  backdrop-filter: blur(5px); /* Hiệu ứng làm mờ nền */
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  backdrop-filter: blur(5px);
   display: none;
   justify-content: center;
   align-items: center;
@@ -157,26 +152,26 @@ figure:hover .download-btn {
   border-radius: 12px;
   border: 1px solid #333;
   max-width: 300px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
   animation: scaleUp 0.3s ease-out;
 }
 
 .popup-content h2 {
-  color: #bb86fc; /* Màu tím neon */
+  color: #bb86fc;
   margin-top: 0;
   text-align: center;
   font-size: 1.5rem;
 }
 
 .popup-content p {
-  color: #b0b0b0; /* Chữ xám sáng */
+  color: #b0b0b0;
   line-height: 1.6;
   text-align: center;
 }
 
 .close-btn {
-  background-color: #bb86fc; /* Màu tím */
-  color: #121212; /* Chữ đen */
+  background-color: #bb86fc;
+  color: #121212;
   border: none;
   padding: 0.6rem 1.5rem;
   border-radius: 6px;
@@ -188,18 +183,69 @@ figure:hover .download-btn {
 }
 
 .close-btn:hover {
-  background-color: #9a67ea; /* Tím đậm hơn */
+  background-color: #9a67ea;
   transform: translateY(-2px);
 }
 
-/* Hiệu ứng xuất hiện */
 @keyframes scaleUp {
-  from {
-    transform: scale(0.95);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+#effectDiv {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 12px 18px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 1000;
+}
+
+#effectDiv .effect-name {
+  font-size: 16px;
+}
+
+#effectDiv .switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+#effectDiv .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+#effectDiv .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #555;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+#effectDiv .slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #fff;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+#effectDiv .switch input:checked + .slider {
+  background-color: #9a67ea;
+}
+
+#effectDiv .switch input:checked + .slider:before {
+  transform: translateX(24px);
 }
