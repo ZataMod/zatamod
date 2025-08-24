@@ -2,7 +2,7 @@ const heroes = [
   {
     "img": "https://lh3.googleusercontent.com/d/1Jjdxi9jjXTxPAgOx65QME72Rd79kiedv",
     "title": "ALLAIN KAMADO TANJIRO",
-    "link": "https://link4m.com/Xi2JvH"
+    "link": "https://zatamod.vercel.app/notification.html?text=Mod%20Allain%20Kamado%20Tanjiro%20Hi%E1%BB%87n%20%C4%90ang%20L%E1%BB%97i%20M%E1%BA%A1ng%20:(("
   },
   {
     "img": "https://lh3.googleusercontent.com/d/19i5-HUNkfilZGZqrRKqydE5Krtab-VZE",
