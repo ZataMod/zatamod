@@ -23,7 +23,7 @@ app.get("/", async (req, res) => {
     });
 
     const data = await response.json();
-    app.use(express.static(__dirname));
+    app.use(express.static(path.join(__dirname, "public")));
 
     res.sendFile(path.join(__dirname, "index.html"));
   } catch (err) {
