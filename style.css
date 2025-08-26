@@ -1,0 +1,251 @@
+body {
+  background: #111;
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+.profile {
+  text-align: center;
+  margin: 20px 0 30px;
+  color: white;
+  opacity: 0;
+}
+
+.profile img {
+  display: block;
+  width: 150px;
+  height: 150px;
+  margin: 0 auto 10px;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border: 3px solid white;
+  border-radius: 50%;
+  transform: scale(0.6);
+}
+
+.profile button {
+  display: inline-block;
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(6px);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 10px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+.profile button:hover {
+  background: rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.container {
+  margin-bottom: 40px;
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+figure {
+  position: relative;
+  margin: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.5s ease-in-out;
+  aspect-ratio: 6 / 1;
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+figure:hover {
+  aspect-ratio: 16 / 9;
+}
+
+figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: blur(3px);
+  transition: filter 0.5s ease-in-out;
+}
+
+figure:hover img {
+  filter: blur(0);
+}
+
+figcaption {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  font-weight: 900;
+  font-size: clamp(16px, 5vw, 32px);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  color: white;
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+figure:hover figcaption {
+  opacity: 0;
+}
+
+.download-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.6);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.download-btn.unlocked {
+  pointer-events: auto;
+}
+
+figure:hover .download-btn {
+  opacity: 1;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: rgba(0,0,0,0.8);
+  backdrop-filter: blur(5px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background-color: #1e1e1e;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid #333;
+  max-width: 300px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  animation: scaleUp 0.3s ease-out;
+}
+
+.popup-content h2 {
+  color: #bb86fc;
+  margin-top: 0;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.popup-content p {
+  color: #b0b0b0;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.close-btn {
+  background-color: #bb86fc;
+  color: #121212;
+  border: none;
+  padding: 0.6rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+  margin: 1rem auto 0;
+  display: block;
+}
+
+.close-btn:hover {
+  background-color: #9a67ea;
+  transform: translateY(-2px);
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+#effectDiv {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 12px 18px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  z-index: 1000;
+}
+
+#effectDiv .effect-name {
+  font-size: 16px;
+}
+
+#effectDiv .switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+#effectDiv .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+#effectDiv .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #555;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+#effectDiv .slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: #fff;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+#effectDiv .switch input:checked + .slider {
+  background-color: #9a67ea;
+}
+
+#effectDiv .switch input:checked + .slider:before {
+  transform: translateX(24px);
+}
