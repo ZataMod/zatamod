@@ -2,7 +2,7 @@ const heroes = [
   {
     "img": "https://lh3.googleusercontent.com/d/1Jjdxi9jjXTxPAgOx65QME72Rd79kiedv",
     "title": "ALLAIN KAMADO TANJIRO",
-    "link": "https://link4m.com/Xi2JvH"
+    "link": "https://zatamod.vercel.app/notification.html?text=Mod Allain Kamado Tanjiro Hiện Đang Lỗi Mạng :(("
   },
   {
     "img": "https://lh3.googleusercontent.com/d/19i5-HUNkfilZGZqrRKqydE5Krtab-VZE",
