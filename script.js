@@ -18,7 +18,7 @@ effectSwitch.addEventListener("change", () => {
   updateEffects(effectEnabled);  
 });  
 
-const bgMusic = new Audio('https://files.catbox.moe/ccn3hi.m4a');  
+const bgMusic = new Audio('music.mp3');  
 bgMusic.loop = true;  
 let musicStarted = false;  
 
