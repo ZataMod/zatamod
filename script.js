@@ -1,115 +1,72 @@
-const effectSwitch = document.querySelector("#effectDiv .switch input");  
-let effectEnabled = localStorage.getItem("effectEnabled") === null ? true : (localStorage.getItem("effectEnabled") === "true");  
-effectSwitch.checked = effectEnabled;  
+// Lấy các phần tử popup
+const welcomePopup = document.getElementById('welcome-popup');
+const closeBtn = document.getElementById('close-popup-btn');
+const backgroundMusic = document.getElementById('background-music');
 
-function updateEffects(enabled) {  
-  if(enabled){  
-    document.querySelectorAll("figure, .profile img, .profile button, .download-btn")  
-            .forEach(el => animateShadowCircle(el));  
-  } else {  
-    document.querySelectorAll("figure, .profile img, .profile button, .download-btn")  
-            .forEach(el => el.style.boxShadow = "none");  
-  }  
-}  
+// Sự kiện khi bấm nút đóng
+closeBtn.addEventListener('click', () => {
+    welcomePopup.style.display = 'none';
+    // Phát nhạc khi popup đóng
+    backgroundMusic.play().catch(e => {
+        console.error("Lỗi khi phát nhạc:", e);
+    });
+});
 
-effectSwitch.addEventListener("change", () => {  
-  effectEnabled = effectSwitch.checked;  
-  localStorage.setItem("effectEnabled", effectEnabled);  
-  updateEffects(effectEnabled);  
-});  
+// Hàm tính thời gian tương đối
+function formatRelativeTime(dateString) {
+    const postDate = new Date(dateString);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - postDate) / 1000);
 
-const bgMusic = new Audio('music.mp3');  
-bgMusic.loop = true;  
-let musicStarted = false;  
+    if (diffInSeconds < 60) {
+        return "vài giây trước";
+    }
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    if (diffInMinutes < 60) {
+        return `${diffInMinutes} phút trước`;
+    }
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    if (diffInHours < 24) {
+        return `${diffInHours} giờ trước`;
+    }
+    const diffInDays = Math.floor(diffInHours / 24);
+    if (diffInDays < 7) {
+        return `${diffInDays} ngày trước`;
+    }
+    // Nếu hơn 7 ngày, hiển thị ngày tháng cụ thể
+    return postDate.toLocaleDateString('vi-VN');
+}
 
-const container = document.getElementById("gallery");  
-const popup = document.getElementById('welcomePopup');  
+const container = document.getElementById('file-container');
 
-function preloadImages(urls, allImagesLoadedCallback) {  
-  let loadedCounter = 0;  
-  const toBeLoadedNumber = urls.length;  
-  urls.forEach(url => {  
-    const img = new Image();  
-    img.src = url;  
-    img.onload = () => {  
-      loadedCounter++;  
-      if(loadedCounter === toBeLoadedNumber) allImagesLoadedCallback();  
-    };  
-  });  
-}  
+// Render danh sách file
+heroes.forEach(file => {
+    const card = document.createElement('div');
+    card.className = 'threads-card';
+    card.innerHTML = `
+        <!-- Header -->
+        <div class="flex items-center p-4">
+            <img src="https://zatamod.vercel.app/avatar.jpg" alt="Profile Picture" class="w-10 h-10 rounded-full mr-3">
+            <div>
+                <span class="font-semibold">Zata Mod</span>
+                <span class="text-gray-500 text-sm"> • ${formatRelativeTime(file.time)}</span>
+            </div>
+        </div>
 
-function renderGallery() {  
-  heroes.forEach(hero => {  
-    const figure = document.createElement("figure");  
-    const img = document.createElement("img");  
-    img.src = hero.img;  
-    const caption = document.createElement("figcaption");  
-    caption.textContent = hero.title;  
-    const downloadBtn = document.createElement("button");  
-    downloadBtn.textContent = "DOWNLOAD";  
-    downloadBtn.className = "download-btn";  
-    downloadBtn.onclick = e => {  
-      e.stopPropagation();  
-      window.open(hero.link, "_blank");  
-    };  
-    figure.append(img, caption, downloadBtn);  
-    container.appendChild(figure);  
-    figure.addEventListener("mouseenter", () => {  
-      setTimeout(() => downloadBtn.classList.add("unlocked"), 500);  
-    });  
-    figure.addEventListener("mouseleave", () => downloadBtn.classList.remove("unlocked"));  
-  });  
-}  
-
-function animateShadowCircle(el) {  
-  let hue = 0;  
-  let angle = 0;  
-  const radius = 10;  
-  function update() {  
-    if(!effectEnabled) return;  
-    hue = (hue + 0.5) % 360;  
-    angle += 0.05;  
-    const x = Math.cos(angle) * radius;      
-    const y = Math.sin(angle) * radius;      
-    el.style.boxShadow = `  
-      ${x}px ${y}px 15px hsl(${hue}, 60%, 70%),  
-      ${-x}px ${-y}px 30px hsl(${(hue+120)%360}, 60%, 70%)  
-    `;  
-    requestAnimationFrame(update);  
-  }  
-  update();  
-}  
-
-let animationsStarted = false;  
-
-function startExperience() {  
-  if(animationsStarted) return;  
-  gsap.to(".profile", { opacity: 1, duration: 0.1 });  
-  gsap.to(".profile img", { scale: 1, opacity: 1, duration: 1, ease: "back.out(1.7)" });  
-  gsap.to(".profile button", { y: 0, opacity: 1, duration: 0.8, delay: 0.5, ease: "power3.out" });  
-  preloadImages(heroes.map(h => h.img), () => {  
-    gsap.to("figure", { opacity: 1, scale: 1, duration: 0.8, ease: "power3.out", stagger: 0.2 });  
-    if(effectEnabled){  
-      document.querySelectorAll("figure, .profile img, .profile button, .download-btn")  
-              .forEach(el => animateShadowCircle(el));  
-    }  
-  });
-  bgMusic.play()
-  musicStarted = true;
-  animationsStarted = true;  
-}  
-
-document.addEventListener('DOMContentLoaded', () => {  
-  renderGallery();  
-  popup.style.display = 'flex';  
-  document.querySelector('.close-btn').addEventListener('click', () => {  
-    popup.style.display = 'none';  
-    startExperience();  
-  });  
-  popup.addEventListener('click', e => {  
-    if(e.target === popup){  
-      popup.style.display = 'none';  
-      startExperience();  
-    }  
-  });  
+        <!-- File info and preview -->
+        <div class="p-4 pt-0">
+            <p class="text-gray-800 mb-3 text-lg">${file.title}</p>
+            <div class="image-container rounded-lg overflow-hidden mb-4 border border-gray-200">
+                <img src="${file.img}" alt="File Preview">
+            </div>
+            
+            <!-- Download Button -->
+            <div class="flex justify-between items-center mt-2">
+                <a href="${file.link}" class="bg-blue-500 text-white font-semibold py-2 px-6 rounded-full hover:bg-blue-600 transition-colors">
+                    <i class="fas fa-download mr-2"></i> Tải xuống
+                </a>
+            </div>
+        </div>
+    `;
+    container.appendChild(card);
 });
