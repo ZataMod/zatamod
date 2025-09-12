@@ -13,7 +13,6 @@
 </head>
 <body class="bg-gray-100 p-4">
 
-    <!-- Popup chào mừng -->
     <div id="welcome-popup" class="popup-overlay">
         <div class="popup-content">
             <h2 class="text-3xl font-bold mb-2 text-gray-900">Chào mừng bạn đến với</h2>
@@ -22,15 +21,16 @@
             <button id="close-popup-btn" class="close-btn">Bắt đầu ngay</button>
         </div>
     </div>
-
-    <div id="file-container">
-        <!-- Nội dung sẽ được tạo tự động bởi JavaScript -->
+    
+    <div id="notification" class="hidden h-screen flex justify-center items-center">
+        <p class="text-sm font-bold text-gray-400 opacity-60">
+            Hiện admin chưa đăng mod nào trong bản cập nhật này.
+        </p>
     </div>
+    <div id="file-container"></div>
 
-    <!-- Thẻ audio để phát nhạc -->
     <audio id="background-music" src="music.mp3" preload="auto"></audio>
 
-    <!-- Script -->
     <script src="hero.js"></script>
     <script src="script.js"></script>
 </body>
