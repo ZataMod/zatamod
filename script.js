@@ -63,7 +63,7 @@ function main(heroes) {
                 
                 <!-- Download Button -->
                 <div class="flex justify-between items-center mt-2">
-                    <a href="${file.link}" class="bg-blue-500 text-white font-semibold py-2 px-6 rounded-full hover:bg-blue-600 transition-colors">
+                    <a href="${file.link}" target="_blank" class="bg-blue-500 text-white font-semibold py-2 px-6 rounded-full hover:bg-blue-600 transition-colors">
                         <i class="fas fa-download mr-2"></i> Tải xuống
                     </a>
                 </div>
