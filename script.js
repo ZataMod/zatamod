@@ -47,7 +47,7 @@ function main(heroes) {
         card.innerHTML = `
             <!-- Header -->
             <div class="flex items-center p-4">
-                <img src="https://zatamod.vercel.app/avatar.jpg" alt="Profile Picture" class="w-10 h-10 rounded-full mr-3">
+                <img src="avatar.jpg" alt="Profile Picture" class="w-10 h-10 rounded-full mr-3">
                 <div>
                     <span class="font-semibold">Zata Mod</span>
                     <span class="text-gray-500 text-sm"> • ${formatRelativeTime(file.time)}</span>
@@ -56,9 +56,9 @@ function main(heroes) {
     
             <!-- File info and preview -->
             <div class="p-4 pt-0">
-                <p class="text-gray-800 mb-3 text-lg">${file.title}</p>
+                <p class="text-gray-800 font-bold mb-3 text-lg">${file.title}</p>
                 <div class="image-container rounded-lg overflow-hidden mb-4 border border-gray-200">
-                    <img src="${file.img}" alt="File Preview">
+                    <img src="${file.img}" alt="Image Mod">
                 </div>
                 
                 <!-- Download Button -->
