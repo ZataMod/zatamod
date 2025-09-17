@@ -2,19 +2,13 @@
 const welcomePopup = document.getElementById('welcome-popup');
 const closeBtn = document.getElementById('close-popup-btn');
 
+let pl = new Audio(`music/${music[Math.floor(Math.random() * music.length)]}`);
 // Sự kiện khi bấm nút đóng
 closeBtn.addEventListener('click', () => {
     welcomePopup.style.display = 'none';
-    // Phát nhạc khi popup đóng
-    console.log("Welcome");
-    wel.play().catch(e => {
-        console.error("Lỗi khi phát nhạc:", e);
-    });
-    wel.addEventListener('ended', () => {
-        let pl = new Audio(`music/${music[Math.floor(Math.random() * music.length)]}`);
-        pl.loop = true;
-        pl.play();
-    });
+    wel.play();
+    pl.loop = true;
+    pl.play();
 });
 
 // Hàm tính thời gian tương đối
