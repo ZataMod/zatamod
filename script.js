@@ -12,7 +12,6 @@ closeBtn.addEventListener('click', () => {
     });
     wel.addEventListener('ended', () => {
         let pl = new Audio(`music/${music[Math.floor(Math.random() * music.length)]}`);
-        console.log(`music/${music[Math.floor(Math.random() * music.length)]}`);
         pl.loop = true;
         pl.play();
     });
