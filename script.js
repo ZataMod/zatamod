@@ -1,14 +1,20 @@
 // Lấy các phần tử popup
 const welcomePopup = document.getElementById('welcome-popup');
 const closeBtn = document.getElementById('close-popup-btn');
-const backgroundMusic = document.getElementById('background-music');
 
 // Sự kiện khi bấm nút đóng
 closeBtn.addEventListener('click', () => {
     welcomePopup.style.display = 'none';
     // Phát nhạc khi popup đóng
-    backgroundMusic.play().catch(e => {
+    console.log("Welcome");
+    wel.play().catch(e => {
         console.error("Lỗi khi phát nhạc:", e);
+    });
+    wel.addEventListener('ended', () => {
+        let pl = new Audio(`music/${music[Math.floor(Math.random() * music.length)]}`);
+        console.log(`music/${music[Math.floor(Math.random() * music.length)]}`);
+        pl.loop = true;
+        pl.play();
     });
 });
 
